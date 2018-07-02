@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>数据结构栈</title>
+</head>
+<body>
+<h2>栈</h2>
+<h3>栈是一种遵从后进先出(LIFO)原则的有序集合。新添加的或待删除的元素都保存在栈的末尾，称作栈顶，另一端称作栈底</h3>
+<script type="text/javascript">
+    function Stack() {
+        var items = [];
+
+        this.push = function(element) {
+            items.push(element);
+        };
+
+        this.pop = function() {
+            return items.pop();
+        };
+
+        this.peek = function() {
+            return items[items.length-1];
+        };
+
+        this.isEmpty = function() {
+            return items.length == 0;
+        };
+
+        this.size = function() {
+            return items.length;
+        };
+
+        this.clear = function() {
+            items = [];
+        };
+
+        this.print = function() {
+            console.log(items.toString());
+        }
+    }
+
+    // stack initialize
+    /*var stack = new Stack();
+
+    stack.push(5);
+    stack.push(7);
+
+    console.log(stack.peek());
+    console.log(stack.pop());*/
+
+    // 从十进制到二进制
+    function devideBy2(decNumber) {
+        var remStack = new Stack(),
+            rem,
+            binaryString = '';
+
+        while (decNumber > 0) {
+            rem = Math.floor(decNumber % 2);
+            remStack.push(rem);
+            decNumber = Math.floor(decNumber / 2);
+        }
+
+        while (!remStack.isEmpty()) {
+            binaryString += remStack.pop().toString();
+        }
+
+        return binaryString;
+    }
+
+    // console.log(devideBy2(233));
+
+    /**
+     * 通过上面的方法可以将十进制转换成任何进制，还可以传入其他任意进制的基数为参数：
+     *  转换为二进制时:余数是0或1
+     *  转换为八进制时:余数是0到7之间的数
+     *  转换为十进制时:余数是0到9之间的数字加上A、B、C、D、E、F(对应10 11 12 13 14 15)
+     */
+
+    function baseConverter(decNumber, base) {
+        var remStack = new Stack(),
+            rem,
+            baseString = '',
+            digits = '01233456789ABCDEF';
+
+        while (decNumber > 0) {
+            rem = Math.floor(decNumber % base);
+            remStack.push(rem);
+            decNumber = Math.floor(decNumber / base)
+        }
+
+        while (!remStack.isEmpty()) {
+            console.log(digits[remStack.pop()]);
+            baseString += digits[remStack.pop()];
+        }
+
+        return baseString;
+    }
+
+    /*console.log(baseConverter(100345,2));
+    console.log(baseConverter(100345,8));
+    console.log(baseConverter(100345,16));*/
+</script>
+</body>
+</html>
