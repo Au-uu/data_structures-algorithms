@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2>队列</h2>
+<h3>队列遵循FIFO原则:先进先出的有序的项</h3>
+<script type="text/javascript">
+    function Queue() {
+        var items = [];
+
+        this.enqueue = function(element) {
+            items.push(element);
+        };
+
+        this.dequeue = function(element) {
+            return items.shift();
+        };
+
+        this.front = function() {
+            return items[0];
+        };
+
+        this.isEmpty = function() {
+            return items.length == 0;
+        };
+
+        this.size = function() {
+            return items.length;
+        };
+
+        this.print = function() {
+            console.log(items.toString());
+        }
+    }
+
+    var queue = new Queue();
+
+    /*queue.enqueue('aa');
+    queue.enqueue('bb');
+    queue.enqueue('cc');
+
+    queue.print();*/
+
+    /**
+     * 实现：优先队列
+     */
+
+
+    function PriorityQueue() {
+        var items = [];
+
+        function QueueElement (element, priority) {
+            this.element = element;
+            this.priority = priority;
+        }
+
+        this.enqueue = function(element, priority) {
+            // Queue类和Priority类的区别是要向PriorityQueue添加元素
+            var queueElement = new QueueElement(element, priority);
+
+            // 如果队列是空可以直接将元素入列
+            if (this.isEmpty()) {
+                items.push(queueElement);
+            } else {
+                // 否则就比较该元素与其他元素的优先级
+                var added = false;
+                for (var i=0; i<items.length; i++) {
+                    if (queueElement.priority < items[i].priority) {
+                        // 当找到一个比要添加的元素的priority值更大的项时，就把新元素插入到它之前，并中止循环
+                        items.splice(i, 0, queueElement);
+                        added = true;
+                        break;
+                    }
+                }
+                if (!added) {
+                    items.push(queueElement);
+                }
+            }
+        };
+
+
+        this.isEmpty = function() {
+            return items.length == 0;
+        };
+
+        this.print = function() {
+            console.log(items.toString());
+        };
+
+        this.show = function() {
+            return items;
+        }
+    }
+
+    /*var priorityQueue = new PriorityQueue();
+    priorityQueue.enqueue('john', 2);
+    priorityQueue.enqueue('jack', 1);
+    priorityQueue.enqueue('Camila', 1);
+
+    console.log(priorityQueue.show());*/
+
+    // 循环队列---击鼓传花
+
+    function hotPotato (nameList, num) {
+        var queue = new Queue();
+
+        for (var i=0; i<nameList.length; i++) {
+            queue.enqueue(nameList[i]);
+        }
+
+        var eliminated = '';
+        while (queue.size() > 1) {
+            for (var i=0; i<num; i++) {
+                console.log(queue.print());
+                queue.enqueue(queue.dequeue());
+                // console.log(queue.print());
+            }
+            eliminated = queue.dequeue();
+            console.log(eliminated + '在击鼓传花游戏中被淘汰.');
+        }
+
+        return queue.dequeue();
+    }
+
+    var names = ['a', 'b', 'c', 'd', 'e'];
+    var winner = hotPotato(names, 7);
+    console.log('胜利者:' + winner);
+</script>
+</body>
+</html>
