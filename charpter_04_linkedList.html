@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>链表</title>
+</head>
+<body>
+<h1>链表</h1>
+<h2>链表存储有序的元素集合，但是不同于数组链表中的元素在内存中并不是连续放置的。</h2>
+<h2>每个元素由一个存储元素本身的节点和一个指向下一个元素的引用（也称指针或连接）组成</h2>
+<h2>好处在于添加、删除元素不需要移动其他元素，但是需要指针</h2>
+<h2>链表若要访问链表中间的一个元素则需要从头开始迭代列表直到查找到</h2>
+<h2>特点是列表最后一个节点的下一个元素始终是null</h2>
+<script type="text/javascript">
+    function LinkedList () {
+        // 链表结构需要一个Node辅助类，表示要加入列表的项。
+        var Node = function(element) {
+            this.element= element; // 要添加到列表的值
+            this.next = null; // 指向列表中下一个节点项的指针
+        };
+
+        var length = 0; // 存储列表项数量的(内部/私有变量)
+        var head = null; // 存储第一个节点的引用
+
+        // 向列表尾部添加一个新的项
+        this.append = function(element) {
+            // 当列表为空，添加第一个元素。否则，追加元素
+            var node = new Node(element),
+                current;
+
+            if (head === null) { // 列表中第一个节点
+                head = node;
+            } else {
+                current = head;
+                //循环列表，直到找到最后一项
+                while(current.next) {
+                    current = current.next;
+                }
+
+                // 找到最后一项，将其next赋为node,建立连接
+                current.next = node;
+            }
+
+            length++;
+        };
+
+        // 在任意位置插入一个元素
+        this.insert = function(position, element){
+             if (position >= 0 && position <= length) {
+                 var node = new Node(element),
+                     current = head,
+                     previous,
+                     index = 0;
+
+                 if (position === 0) {
+                     node.next = current;
+                     head = node;
+                 } else {
+                     while (index++ < position) {
+                         previous = current;
+                         current = current.next;
+                     }
+                     node.next = current;
+                     previous.next = node;
+                 }
+
+                 length++;
+                 return true;
+             } else {
+                 return false;
+             }
+
+
+        };
+
+        // 从列表中移除一项
+        this.removeAt = function(position){
+             // 检查越界值
+            if (position > -1 && position < length) {
+                var current = head,
+                    previous,
+                    index = 0;
+
+                // 移除第一项
+                if (position === 0) {
+                    head = current.next;
+                } else {
+                    debugger;
+                    while (index++ < position) {
+                        previous = current;
+                        current = current.next;
+                    }
+
+                    // 将previous与current的下一项连接起来:跳过current,从而移除它
+                    previous.next = current.next;
+                }
+                length--;
+
+                return current.element;
+            } else {
+                return null;
+            }
+
+        };
+        this.indexOf = function(element){}; // 返回元素在列表中的索引。如果没有则返回-1
+        this.isEmpty = function() {}; // 从列表特定位置移除一项
+        this.size = function() {}; // 返回链表包含的元素个数，与数组length属性相似
+        this.getHead = function() {}; //
+        this.toString = function() {}; // 使用了Node类，就需要重写继承自JavaScript对象默认的toString方法，让其只输出元素的值
+        this.print = function() {};
+    }
+
+    var list = new LinkedList();
+
+    list.append(15);
+    list.append(10);
+    list.append(13);
+    list.append(11);
+    list.append(12);
+
+    console.log(list.removeAt(4))
+</script>
+</body>
+</html>
